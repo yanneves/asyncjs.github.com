@@ -25,15 +25,14 @@ const analytics = require('metalsmith-google-analytics').default
 const excerpts = require('metalsmith-excerpts')
 const more = require('metalsmith-more')
 
-const { reload } = require('../browser')
 const { customElements } = require('./feed')
 const { headlines, upcoming, past } = require('./filters')
 const { includes, layouts, posts, pages, dist } = require('../../paths.json')
 
 // Task configurations
-module.exports = function metalsmith(cb) {
+module.exports = function metalsmith() {
 
-  gulp.src(['./site.json', pages.glob, posts.glob])
+  return gulp.src(['./site.json', pages.glob, posts.glob])
 
     // Expose metalsmith front-matter to gulp pipelines
     .pipe(gulpFrontMatter()).on('data', file => {
@@ -195,8 +194,4 @@ module.exports = function metalsmith(cb) {
 
     )
     .pipe(gulp.dest(dist.dir))
-    .on('finish', () => {
-      reload()
-      cb()
-    })
 }
